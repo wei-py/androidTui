@@ -263,10 +263,148 @@ useEffect(() => {
 5. 遵循 Hook 规则，确保代码稳定可靠
 6. 适当使用 ESLint 规则（eslint-plugin-react-hooks）来检查 Hook 的使用
 
-## 9. 学习要点
+## 9. React Ink 专用 Hook
+
+在终端 UI 应用中，除了标准的 React Hook 外，还有一些特殊的 Hook 和注意事项：
+
+### useInput (Ink 专属)
+用于处理键盘输入事件：
+
+```jsx
+import React, { useState } from 'react';
+import { Text, useInput } from 'ink';
+
+function MyComponent() {
+  const [text, setText] = useState('');
+  
+  useInput((input, key) => {
+    if (key.return) {
+      // 处理回车键
+      setText('');
+    } else if (key.backspace || key.delete) {
+      // 处理删除键
+      setText(current => current.slice(0, -1));
+    } else {
+      // 处理普通字符输入
+      setText(current => current + input);
+    }
+  });
+  
+  return <Text>Type: {text}</Text>;
+}
+```
+
+### useFocus (Ink 专属)
+管理组件焦点状态：
+
+```jsx
+import React from 'react';
+import { Text, useFocus } from 'ink';
+
+function FocusedButton({ label }) {
+  const { isFocused, focus } = useFocus({ autoFocus: true });
+  
+  return (
+    <Text 
+      backgroundColor={isFocused ? 'blue' : 'gray'}
+      onClick={focus}
+    >
+      {label} {isFocused ? '(focused)' : ''}
+    </Text>
+  );
+}
+```
+
+### useStdin & useStdout (Ink 专属)
+访问终端的标准输入输出流：
+
+```jsx
+import React from 'react';
+import { Text, useStdin, useStdout } from 'ink';
+
+function TerminalInfo() {
+  const { stdin } = useStdin();
+  const { stdout } = useStdout();
+  
+  return (
+    <Text>
+      Terminal size: {stdout.columns} x {stdout.rows}
+    </Text>
+  );
+}
+```
+
+## 10. 终端 UI 开发中的特殊注意事项
+
+### 性能考虑
+- 终端渲染比网页渲染更消耗资源
+- 避免过于频繁的状态更新
+- 合理使用 `useMemo` 和 `useCallback` 优化性能
+
+### 事件处理
+- 键盘事件处理是终端 UI 的核心
+- 注意区分字符输入和特殊按键（方向键、功能键等）
+- 适当处理终端窗口大小变化
+
+### 布局约束
+- 终端 UI 受限于终端窗口大小
+- 使用 Ink 的布局组件（Box, Text）进行响应式设计
+- 考虑不同终端的兼容性
+
+### 数据验证与状态管理
+在终端 UI 应用中，结合 Zod 进行数据验证：
+
+```jsx
+import React, { useState } from 'react';
+import { Text, Box } from 'ink';
+import { z } from 'zod';
+
+// 定义数据验证 schema
+const UserDataSchema = z.object({
+  name: z.string().min(1, 'Name is required'),
+  age: z.number().min(0).max(120),
+  email: z.string().email('Invalid email format'),
+});
+
+function UserProfileInput() {
+  const [userData, setUserData] = useState({});
+  const [errors, setErrors] = useState([]);
+
+  const handleSubmit = (rawData) => {
+    try {
+      // 使用 Zod 验证数据
+      const validatedData = UserDataSchema.parse(rawData);
+      setUserData(validatedData);
+      setErrors([]);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        setErrors(error.errors.map(err => err.message));
+      }
+    }
+  };
+
+  return (
+    <Box flexDirection="column">
+      <Text>User Profile</Text>
+      {errors.length > 0 && (
+        <Box flexDirection="column" marginTop={1}>
+          {errors.map((error, index) => (
+            <Text key={index} color="red">{error}</Text>
+          ))}
+        </Box>
+      )}
+    </Box>
+  );
+}
+```
+
+## 11. 学习要点
 
 - 理解 Hook 的工作原理
 - 掌握各种内置 Hook 的使用场景
 - 学会创建自定义 Hook
 - 注意性能优化技巧
 - 遵循最佳实践和规则
+- 熟悉 Ink 专有的 Hook（useInput, useFocus, useStdin, useStdout）
+- 了解终端 UI 开发的特殊性
+- 掌握在终端应用中使用 Zod 进行数据验证的方法
