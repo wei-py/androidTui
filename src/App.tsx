@@ -1,7 +1,7 @@
-import { Box, Newline, Text } from 'ink'
-import * as React from 'react'
-import { useState } from 'react'
-import * as z from 'zod'
+import { Box, Newline, Text } from "ink"
+import * as React from "react"
+import { useState } from "react"
+import * as z from "zod"
 
 // 定义应用状态的Zod schema
 type AppState = z.infer<typeof _AppStateSchema>
