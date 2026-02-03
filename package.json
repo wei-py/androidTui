@@ -1,13 +1,13 @@
 {
   "name": "android-tui",
-  "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
-    "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
+    "lint": "eslint src/ --ext .ts,.tsx,.js,.jsx",
+    "format": "eslint src/ --ext .ts,.tsx,.js,.jsx --fix",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^7.2.0",
+    "@eslint-react/eslint-plugin": "^2.9.3",
     "@eslint/js": "^9.39.1",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",

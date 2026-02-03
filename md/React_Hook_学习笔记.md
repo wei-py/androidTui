@@ -18,19 +18,25 @@ React Hook 是 React 16.8 引入的新特性，允许在不编写 class 的情�
 用于在函数组件中添加状态。
 
 ```jsx
-import React, { useState } from 'react';
+import * as React from 'react'
+import { useState } from 'react'
 
 function Example() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0)
 
   return (
     <div>
-      <p>You clicked {count} times</p>
+      <p>
+        You clicked
+        {count}
+        {' '}
+        times
+      </p>
       <button onClick={() => setCount(count + 1)}>
         Click me
       </button>
     </div>
-  );
+  )
 }
 ```
 
@@ -38,23 +44,29 @@ function Example() {
 用于执行副作用操作，如数据获取、订阅或手动更改 DOM。
 
 ```jsx
-import React, { useState, useEffect } from 'react';
+import * as React from 'react'
+import { useEffect, useState } from 'react'
 
 function Example() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
-    document.title = `You clicked ${count} times`;
-  });
+    document.title = `You clicked ${count} times`
+  })
 
   return (
     <div>
-      <p>You clicked {count} times</p>
+      <p>
+        You clicked
+        {count}
+        {' '}
+        times
+      </p>
       <button onClick={() => setCount(count + 1)}>
         Click me
       </button>
     </div>
-  );
+  )
 }
 ```
 
@@ -62,13 +74,19 @@ function Example() {
 接收一个 context 对象并返回该 context 的当前值。
 
 ```jsx
-import React, { useState, useContext } from 'react';
+import * as React from 'react'
+import { use, useState } from 'react'
 
-const CountContext = React.createContext();
+const CountContext = React.createContext()
 
 function ComponentA() {
-  const count = useContext(CountContext);
-  return <div>Count: {count}</div>;
+  const count = use(CountContext)
+  return (
+    <div>
+      Count:
+      {count}
+    </div>
+  )
 }
 ```
 
@@ -78,30 +96,33 @@ function ComponentA() {
 用于复杂状态逻辑的替代方案。
 
 ```jsx
-import React, { useReducer } from 'react';
+import * as React from 'react'
+import { useReducer } from 'react'
 
-const initialState = { count: 0 };
+const initialState = { count: 0 }
 
 function reducer(state, action) {
   switch (action.type) {
     case 'increment':
-      return { count: state.count + 1 };
+      return { count: state.count + 1 }
     case 'decrement':
-      return { count: state.count - 1 };
+      return { count: state.count - 1 }
     default:
-      throw new Error();
+      throw new Error()
   }
 }
 
 function Counter() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState)
   return (
     <>
-      Count: {state.count}
+      Count:
+      {' '}
+      {state.count}
       <button onClick={() => dispatch({ type: 'decrement' })}>-</button>
       <button onClick={() => dispatch({ type: 'increment' })}>+</button>
     </>
-  );
+  )
 }
 ```
 
@@ -109,21 +130,25 @@ function Counter() {
 返回一个 memoized 回调函数。
 
 ```jsx
-import React, { useState, useCallback } from 'react';
+import * as React from 'react'
+import { useCallback, useState } from 'react'
 
 function ParentComponent() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0)
 
   const handleClick = useCallback(() => {
-    setCount(c => c + 1);
-  }, []);
+    setCount(c => c + 1)
+  }, [])
 
   return (
     <div>
-      <p>Count: {count}</p>
+      <p>
+        Count:
+        {count}
+      </p>
       <ChildComponent onClick={handleClick} />
     </div>
-  );
+  )
 }
 ```
 
@@ -131,15 +156,21 @@ function ParentComponent() {
 返回一个 memoized 值。
 
 ```jsx
-import React, { useState, useMemo } from 'react';
+import * as React from 'react'
+import { useMemo, useState } from 'react'
 
 function CalculateExpensiveValue({ items, multiplier }) {
   const expensiveValue = useMemo(() => {
     // 执行昂贵的计算
-    return items.reduce((sum, item) => sum + item.value * multiplier, 0);
-  }, [items, multiplier]);
+    return items.reduce((sum, item) => sum + item.value * multiplier, 0)
+  }, [items, multiplier])
 
-  return <div>Expensive Value: {expensiveValue}</div>;
+  return (
+    <div>
+      Expensive Value:
+      {expensiveValue}
+    </div>
+  )
 }
 ```
 
@@ -147,16 +178,17 @@ function CalculateExpensiveValue({ items, multiplier }) {
 返回一个可变的 ref 对象，其 `.current` 属性被初始化为传入的参数。
 
 ```jsx
-import React, { useRef, useEffect } from 'react';
+import * as React from 'react'
+import { useEffect, useRef } from 'react'
 
 function FocusInput() {
-  const inputRef = useRef(null);
+  const inputRef = useRef(null)
 
   useEffect(() => {
-    inputRef.current.focus();
-  }, []);
+    inputRef.current.focus()
+  }, [])
 
-  return <input ref={inputRef} type="text" />;
+  return <input ref={inputRef} type="text" />
 }
 ```
 
@@ -164,19 +196,20 @@ function FocusInput() {
 自定义暴露给父组件的实例值。
 
 ```jsx
-import React, { forwardRef, useImperativeHandle, useRef } from 'react';
+import * as React from 'react'
+import { forwardRef, useImperativeHandle, useRef } from 'react'
 
-const FancyInput = forwardRef((props, ref) => {
-  const inputRef = useRef();
+function FancyInput({ ref, ...props }) {
+  const inputRef = useRef()
 
   useImperativeHandle(ref, () => ({
     focus: () => {
-      inputRef.current.focus();
+      inputRef.current.focus()
     }
-  }));
+  }))
 
-  return <input ref={inputRef} type="text" />;
-});
+  return <input ref={inputRef} type="text" />
+}
 ```
 
 ## 4. 自定义 Hook
@@ -184,33 +217,33 @@ const FancyInput = forwardRef((props, ref) => {
 自定义 Hook 允许我们将组件逻辑提取到可重用的函数中。
 
 ```jsx
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react'
 
 function useFriendStatus(friendID) {
-  const [isOnline, setIsOnline] = useState(null);
+  const [isOnline, setIsOnline] = useState(null)
 
   useEffect(() => {
     function handleStatusChange(status) {
-      setIsOnline(status.isOnline);
+      setIsOnline(status.isOnline)
     }
 
-    ChatAPI.subscribeToFriendStatus(friendID, handleStatusChange);
+    ChatAPI.subscribeToFriendStatus(friendID, handleStatusChange)
     return () => {
-      ChatAPI.unsubscribeFromFriendStatus(friendID, handleStatusChange);
-    };
-  });
+      ChatAPI.unsubscribeFromFriendStatus(friendID, handleStatusChange)
+    }
+  })
 
-  return isOnline;
+  return isOnline
 }
 
 // 使用自定义 Hook
 function FriendStatus(props) {
-  const isOnline = useFriendStatus(props.friend.id);
+  const isOnline = useFriendStatus(props.friend.id)
 
   if (isOnline === null) {
-    return 'Loading...';
+    return 'Loading...'
   }
-  return isOnline ? 'Online' : 'Offline';
+  return isOnline ? 'Online' : 'Offline'
 }
 ```
 
@@ -228,19 +261,19 @@ function FriendStatus(props) {
 ```jsx
 useEffect(() => {
   if (shouldFetch) {
-    fetchData();
+    fetchData()
   }
-}, [shouldFetch]);
+}, [shouldFetch])
 ```
 
 ### 清理副作用
 ```jsx
 useEffect(() => {
-  const subscription = subscribeToNews(feedUrl);
+  const subscription = subscribeToNews(feedUrl)
   return () => {
-    subscription.unsubscribe();
-  };
-}, [feedUrl]);
+    subscription.unsubscribe()
+  }
+}, [feedUrl])
 ```
 
 ## 7. 性能优化
@@ -271,26 +304,34 @@ useEffect(() => {
 用于处理键盘输入事件：
 
 ```jsx
-import React, { useState } from 'react';
-import { Text, useInput } from 'ink';
+import { Text, useInput } from 'ink'
+import * as React from 'react'
+import { useState } from 'react'
 
 function MyComponent() {
-  const [text, setText] = useState('');
-  
+  const [text, setText] = useState('')
+
   useInput((input, key) => {
     if (key.return) {
       // 处理回车键
-      setText('');
-    } else if (key.backspace || key.delete) {
-      // 处理删除键
-      setText(current => current.slice(0, -1));
-    } else {
-      // 处理普通字符输入
-      setText(current => current + input);
+      setText('')
     }
-  });
-  
-  return <Text>Type: {text}</Text>;
+    else if (key.backspace || key.delete) {
+      // 处理删除键
+      setText(current => current.slice(0, -1))
+    }
+    else {
+      // 处理普通字符输入
+      setText(current => current + input)
+    }
+  })
+
+  return (
+    <Text>
+      Type:
+      {text}
+    </Text>
+  )
 }
 ```
 
@@ -298,20 +339,22 @@ function MyComponent() {
 管理组件焦点状态：
 
 ```jsx
-import React from 'react';
-import { Text, useFocus } from 'ink';
+import { Text, useFocus } from 'ink'
+import * as React from 'react'
 
 function FocusedButton({ label }) {
-  const { isFocused, focus } = useFocus({ autoFocus: true });
-  
+  const { isFocused, focus } = useFocus({ autoFocus: true })
+
   return (
-    <Text 
+    <Text
       backgroundColor={isFocused ? 'blue' : 'gray'}
       onClick={focus}
     >
-      {label} {isFocused ? '(focused)' : ''}
+      {label}
+      {' '}
+      {isFocused ? '(focused)' : ''}
     </Text>
-  );
+  )
 }
 ```
 
@@ -319,18 +362,24 @@ function FocusedButton({ label }) {
 访问终端的标准输入输出流：
 
 ```jsx
-import React from 'react';
-import { Text, useStdin, useStdout } from 'ink';
+import { Text, useStdin, useStdout } from 'ink'
+import * as React from 'react'
 
 function TerminalInfo() {
-  const { stdin } = useStdin();
-  const { stdout } = useStdout();
-  
+  const { stdin } = useStdin()
+  const { stdout } = useStdout()
+
   return (
     <Text>
-      Terminal size: {stdout.columns} x {stdout.rows}
+      Terminal size:
+      {' '}
+      {stdout.columns}
+      {' '}
+      x
+      {' '}
+      {stdout.rows}
     </Text>
-  );
+  )
 }
 ```
 
@@ -355,33 +404,35 @@ function TerminalInfo() {
 在终端 UI 应用中，结合 Zod 进行数据验证：
 
 ```jsx
-import React, { useState } from 'react';
-import { Text, Box } from 'ink';
-import { z } from 'zod';
+import { Box, Text } from 'ink'
+import * as React from 'react'
+import { useState } from 'react'
+import { z } from 'zod'
 
 // 定义数据验证 schema
 const UserDataSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   age: z.number().min(0).max(120),
   email: z.string().email('Invalid email format'),
-});
+})
 
 function UserProfileInput() {
-  const [userData, setUserData] = useState({});
-  const [errors, setErrors] = useState([]);
+  const [userData, setUserData] = useState({})
+  const [errors, setErrors] = useState([])
 
   const handleSubmit = (rawData) => {
     try {
       // 使用 Zod 验证数据
-      const validatedData = UserDataSchema.parse(rawData);
-      setUserData(validatedData);
-      setErrors([]);
-    } catch (error) {
+      const validatedData = UserDataSchema.parse(rawData)
+      setUserData(validatedData)
+      setErrors([])
+    }
+    catch (error) {
       if (error instanceof z.ZodError) {
-        setErrors(error.errors.map(err => err.message));
+        setErrors(error.errors.map(err => err.message))
       }
     }
-  };
+  }
 
   return (
     <Box flexDirection="column">
@@ -394,7 +445,7 @@ function UserProfileInput() {
         </Box>
       )}
     </Box>
-  );
+  )
 }
 ```
 

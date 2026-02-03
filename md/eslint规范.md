@@ -34,15 +34,15 @@ module.exports = {
     // 个性化规则配置
     // 例如，如果你希望禁用某些规则
     // 'no-console': 'warn',
-    
+
     // 对于 React 项目的特殊配置
     'react-hooks/exhaustive-deps': 'error',
     'react/react-in-jsx-scope': 'off', // React 17+ 不需要引入 React
-    
+
     // TypeScript 相关配置
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-explicit-any': 'warn',
-    
+
     // 对于终端 UI 项目的特殊考虑
     'no-console': 'off', // 终端应用可能需要使用 console
   },
@@ -110,16 +110,16 @@ module.exports = {
         reservedFirst: true,
       }
     ],
-    
+
     // 字符串使用双引号
     'quotes': ['error', 'double'],
-    
+
     // 单行最大长度限制
-    'max-len': ['error', { 'code': 80 }],
-    
+    'max-len': ['error', { code: 80 }],
+
     // 对象键排序
-    'sort-keys': ['error', 'asc', { 'caseSensitive': true, 'natural': false }],
-    
+    'sort-keys': ['error', 'asc', { caseSensitive: true, natural: false }],
+
     // 强制使用驼峰命名
     '@typescript-eslint/camelcase': 'off', // 使用新的规则名
     '@typescript-eslint/naming-convention': [
@@ -161,14 +161,14 @@ module.exports = {
         format: ['camelCase'],
       },
     ],
-    
+
     // TypeScript 相关规则
     '@typescript-eslint/consistent-type-imports': 'error',
-    
+
     // 强制静态 class 名按字母排序（对于 React 组件）
     // 注意：ESLint 本身没有直接检查 className 排序的规则
     // 可能需要额外的插件或自定义规则来实现
-    
+
     // JSX 属性排序规则
     'react/jsx-sort-props': [ // 属性排序
       'error',
@@ -180,16 +180,16 @@ module.exports = {
         reservedFirst: true, // 保留字放前面
       }
     ],
-    
+
     // JSDoc 相关规则
     'jsdoc/require-jsdoc': 'off', // 暂时关闭，可根据需要开启
     'jsdoc/check-alignment': 'error', // 检查 JSDoc 注释对齐
     'jsdoc/check-syntax': 'error', // 检查 JSDoc 语法
-    'jsdoc/tag-lines': ['error', 'any', { 
-      'startLines': 1, 
-      'endLines': 0 
+    'jsdoc/tag-lines': ['error', 'any', {
+      startLines: 1,
+      endLines: 0
     }], // 控制 JSDoc 标签换行
-    
+
     // 终端 UI 应用特殊规则
     'no-console': 'off', // 终端应用可能需要使用 console
   },
@@ -282,7 +282,7 @@ module.exports = {
   ```jsx
   // ✅ 正确 - 按字母顺序排序
   <div className="alert button container dialog form header input label modal navigation sidebar table utility" />
-  
+
   // ❌ 错误 - 未按字母顺序排序
   <div className="container button alert" />
   ```
