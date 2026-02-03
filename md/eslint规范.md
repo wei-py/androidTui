@@ -1,7 +1,7 @@
 # ESLint 规范
 
 ## 项目概述
-本项目采用 Anthony Fu (antfu) 的 ESLint 配置，适用于 React + TypeScript + React Ink + Zod + dayjs + xe-utils 项目。
+本项目采用 Anthony Fu (antfu) 的 ESLint 配置，适用于 React + TypeScript + Tailwind CSS + Zod + dayjs + xe-utils 项目。
 
 Anthony Fu (antfu) 是一位知名的前端开发者，他的 ESLint 配置提供了一套现代化、合理的 ESLint 规则集合，无需繁琐的配置即可获得高质量的代码规范。
 
@@ -43,8 +43,8 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-explicit-any': 'warn',
 
-    // 对于终端 UI 项目的特殊考虑
-    'no-console': 'off', // 终端应用可能需要使用 console
+    // 对于 Web 项目的特殊考虑
+    'no-console': 'off', // Web 应用可能需要使用 console
   },
   settings: {
     react: {
@@ -70,7 +70,7 @@ module.exports = {
 }
 ```
 
-### 3. 针对 React + TypeScript + React Ink 项目的扩展配置
+### 3. 针对 React + TypeScript + Tailwind CSS 项目的扩展配置
 
 如果需要针对我们的技术栈做额外配置，可以使用以下配置：
 
@@ -165,7 +165,7 @@ module.exports = {
     // TypeScript 相关规则
     '@typescript-eslint/consistent-type-imports': 'error',
 
-    // 强制静态 class 名按字母排序（对于 React 组件）
+    // 强制静态 class 名按字母顺序排序（对于 React 组件）
     // 注意：ESLint 本身没有直接检查 className 排序的规则
     // 可能需要额外的插件或自定义规则来实现
 
@@ -190,8 +190,8 @@ module.exports = {
       endLines: 0
     }], // 控制 JSDoc 标签换行
 
-    // 终端 UI 应用特殊规则
-    'no-console': 'off', // 终端应用可能需要使用 console
+    // Web 应用特殊规则
+    'no-console': 'off', // Web 应用可能需要使用 console
   },
 }
 ```
@@ -287,11 +287,11 @@ module.exports = {
   <div className="container button alert" />
   ```
 
-### React Ink 专用规范
-- 组件应适当地响应终端尺寸变化
-- 正确处理键盘事件和用户输入
-- 使用 ink 提供的组件进行布局（Box, Text 等）
-- 遵循终端 UI 的可访问性原则
+### Tailwind CSS 专用规范
+- 优先使用 Tailwind 的实用优先类 (utility-first classes)
+- 合理使用响应式前缀 (sm:, md:, lg: 等)
+- 使用 Tailwind 的主题系统进行样式定制
+- 避免使用自定义 CSS 样式，优先使用 Tailwind 提供的类
 
 ### Zod 规范
 - 为 API 响应和外部数据定义验证 schema
@@ -312,15 +312,15 @@ module.exports = {
 
 ## 特殊注意事项
 
-### 终端 UI 项目的特殊考虑
-- console 输出在终端应用中是常见的
-- 键盘事件处理需要特别注意
-- 界面更新逻辑不同于 Web 应用
+### Web 项目的特殊考虑
+- console 输出在 Web 应用中是常见的调试手段
+- 事件处理需要特别注意性能优化
+- 界面更新逻辑遵循 React 生命周期
 
-### 与 Ink 的兼容性
-- 避免使用 Web 特有的 API
-- 注意终端渲染的性能影响
-- 正确处理异步更新
+### 与 Tailwind CSS 的兼容性
+- 避免使用全局 CSS 样式冲突
+- 合理使用 Tailwind 的配置文件进行主题定制
+- 注意组件样式的可复用性
 
 ## 常用命令
 
@@ -337,6 +337,7 @@ pnpm lint --fix
 ### VS Code 推荐插件
 - ESLint
 - Prettier
+- Tailwind CSS IntelliSense
 - TypeScript Importer
 - Bracket Pair Colorizer
 
@@ -353,13 +354,14 @@ pnpm lint --fix
 
 ## 项目特定规则
 
-针对 Android TUI 项目的特殊规则：
+针对 Web 应用项目的特殊规则：
 
 1. **数据验证**: 所有来自外部的数据必须使用 Zod 进行验证
 2. **类型安全**: 所有函数应有明确的类型签名
-3. **组件设计**: 终端 UI 组件应具有良好的可访问性
+3. **组件设计**: Web 组件应具有良好的可访问性
 4. **错误处理**: 适当处理异步操作和数据验证错误
 5. **性能**: 避免不必要的重渲染和计算
+6. **样式**: 优先使用 Tailwind CSS 类，减少自定义样式
 
 ## 维护说明
 
